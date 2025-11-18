@@ -2,6 +2,7 @@ package com.example.capstone1.Service;
 
 import com.example.capstone1.Model.Merchant;
 import com.example.capstone1.Model.MerchantStock;
+import com.example.capstone1.Model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -69,18 +70,21 @@ public class MerchantStockService {
     }
 
 // Extra End Points ****************
-    public boolean checkStock(String id,String productID,String merchantID ,int stock){
-        boolean isProductId= productService.checkId(productID);
-        boolean isMerchantId=merchantService.checkId(merchantID);
-        if(isProductId&&isMerchantId){
+    public ArrayList<Product> checkStock( ){
+        ArrayList<Product> products1=productService.getProducts();
+        ArrayList<Product> availabeProucdt=new ArrayList<>();
+
             for(MerchantStock m:merchantStocks){
-                if(m.getProductID().equals(productID)&&m.getMerchantID().equals(merchantID)){
                     if(m.getStock()>0)
-                    return true;
-                }
+                        for(Product p:products1){
+                            if(p.getId().equals(m.getProductID())){
+                                availabeProucdt.add(p);
+                            }
+                        }
+
             }
-        }
-        return false;
+
+        return availabeProucdt;
     }
 
 }

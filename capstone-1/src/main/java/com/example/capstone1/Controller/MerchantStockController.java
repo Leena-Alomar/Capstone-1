@@ -67,13 +67,12 @@ public class MerchantStockController {
         }
 
     // Extra End Points ****************
-    @GetMapping("/check/{id}/{productID}/{merchantID}/{stock}")
-    public ResponseEntity<?> CheckStock(@PathVariable  String id,@PathVariable String productID,@PathVariable String merchantID ,@PathVariable int stock){
-        boolean isUpateStock= merchantStockService.updateStock(id,productID,merchantID,stock);
-        if(isUpateStock){
-            return ResponseEntity.status(200).body(new ApiResponse("The Product Is available"));
-        }
-        return ResponseEntity.status(400).body(new ApiResponse("The Product Stock Is Out Of Stock"));
-    }
+    @GetMapping("/check")
+    public ResponseEntity<?> CheckStock(){
 
+        if( !merchantStockService.checkStock().isEmpty()){
+            return ResponseEntity.status(200).body(merchantStockService.checkStock());
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("There is no Availabe Products "));
+    }
 }

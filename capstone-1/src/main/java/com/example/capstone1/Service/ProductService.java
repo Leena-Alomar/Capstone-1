@@ -105,4 +105,14 @@ public class ProductService {
         return productCatgory;
     }
 
+    public ArrayList<Product> getProductBynName(String name){
+        ArrayList<Product> productByName=new ArrayList<>();
+        for(Product p:products){
+            if(p.getName().contains(name)){
+                productByName.add(p);
+            }
+        }
+        return productByName;
+    }
+
 }

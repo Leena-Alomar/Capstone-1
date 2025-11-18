@@ -75,4 +75,13 @@ public class ProductController {
         return ResponseEntity.status(400).body(new ApiResponse("There is no Product Of Given Category"));
     }
 
+    @GetMapping("/get/{name}")
+    public ResponseEntity<?> getProductByName(@PathVariable String name){
+        if(!productService.getProductBynName(name).isEmpty()){
+
+            return ResponseEntity.status(200).body(productService.getProductBynName(name));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("There is no Product Of Given Name"));
+    }
+
 }

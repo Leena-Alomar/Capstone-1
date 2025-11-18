@@ -89,9 +89,9 @@ public class UserController {
 
     // Extra End Points ****************
     @GetMapping("/get/recomended/{id}")
-    public ResponseEntity<?> getRecomendedProduct(){
-        if(!userService.getRecommenedProdcut().isEmpty()){
-            return ResponseEntity.status(200).body(userService.getRecommenedProdcut());
+    public ResponseEntity<?> getRecomendedProduct(@PathVariable String id){
+        if(!userService.getRecommenedProdcut(id).isEmpty()){
+            return ResponseEntity.status(200).body(userService.getRecommenedProdcut(id));
         }
         return ResponseEntity.status(400).body(new ApiResponse("The Product Is Not Found"));
     }

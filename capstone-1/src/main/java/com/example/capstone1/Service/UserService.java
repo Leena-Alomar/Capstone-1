@@ -113,44 +113,56 @@ public class UserService {
         return wishlist;
     }
 
+    public boolean checkId(String id){
+        for(int i=0;i<users.size();i++){
+            if(users.get(i).getId().equals(id)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Extra End Points ****************
-    public ArrayList<Product> getRecommenedProdcut(){
+    public ArrayList<Product> getRecommenedProdcut(String id){
         ArrayList<Product> products=productService.getProducts();
         ArrayList<Product> recomended=new ArrayList<>();
+        boolean isUser=checkId(id);
         double max=wishlist.get(0).getPrice();
         double min=wishlist.get(0).getPrice();
         String maxcate="";
 
-        for(int i=0;i< wishlist.size();i++){
-            if(wishlist.get(i).getPrice()>max){
-                max=wishlist.get(i).getPrice();
+        if(isUser){
+            for(int i=0;i< wishlist.size();i++){
+                if(wishlist.get(i).getPrice()>max){
+                    max=wishlist.get(i).getPrice();
 
-            }
-            if(wishlist.get(i).getPrice()<min){
-                min=wishlist.get(i).getPrice();
-            }
-        }
-
-        int countMax=0;
-        int count=0;
-        for(int i=0;i<wishlist.size();i++){
-            String catid=wishlist.get(i).getCategoryID();
-            for(int j=0;j<wishlist.size();j++)
-            if(wishlist.get(j).getCategoryID().equals(catid)){
-                count++;
-                maxcate=catid;
+                }
+                if(wishlist.get(i).getPrice()<min){
+                    min=wishlist.get(i).getPrice();
+                }
             }
 
-        }
-        if(count>countMax){
-            countMax=count;
-            for(Product p:products){
-                if(p.getPrice()>=min&&p.getPrice()<=max&&p.getCategoryID().equals(maxcate)){
-                    recomended.add(p);
+            int countMax=0;
+            int count=0;
+            for(int i=0;i<wishlist.size();i++){
+                String catid=wishlist.get(i).getCategoryID();
+                for(int j=0;j<wishlist.size();j++)
+                    if(wishlist.get(j).getCategoryID().equals(catid)){
+                        count++;
+                        maxcate=catid;
+                    }
+
+            }
+            if(count>countMax){
+                countMax=count;
+                for(Product p:products){
+                    if(p.getPrice()>=min&&p.getPrice()<=max&&p.getCategoryID().equals(maxcate)){
+                        recomended.add(p);
+                    }
                 }
             }
         }
+
         return recomended;
     }
 
